@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>音声認識サンプル</title>
+    </head>
+    <body>
+        <h2>音声認識サンプル</h2>
+        <button id="btn">START</button>
+        <div id="content"></div>
+
+        <script>
+            // 音声認識の処理（日本語設定）
+            const speech = new webkitSpeechRecognition();
+            speech.lang = 'ja-JP';
+        
+            const btn = document.getElementById('btn');
+            const content = document.getElementById('content');
+        
+            btn.addEventListener('click' , () => {
+                // 音声認識スタート
+                speech.start();
+            });
+        
+            // 音声自動文字起こし
+            speech.onresult = e => {
+                speech.stop();
+                if (e.results[0].isFinal) {
+                    let autotext =  e.results[0][0].transcript
+                    content.innerHTML += '<div>'+ autotext +'</div>';
+                }
+            }
+        
+            speech.onend = () => { 
+                speech.start() 
+            };
+        </script>
+    </body>
+</html>
